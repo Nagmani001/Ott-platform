@@ -26,7 +26,9 @@ authRouter.post("/signup", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10)
     const otp = Math.floor(100000 + Math.random() * 900000).toString()
     const otpExpiryDate = new Date()
+    console.log(otpExpiryDate);
     otpExpiryDate.setHours(otpExpiryDate.getHours() + 1)
+    console.log(otpExpiryDate);
 
     if (user) {
       if (user.isVerified) return res.status(409).json({
@@ -110,8 +112,8 @@ authRouter.post("/signin", async (req, res) => {
       success: false,
       message: "User not found"
     })
-    const isValid = bcrypt.compare(password,user.password)
-    if (!isValid) return res.json({success:false,message: "Incorrect password"})
+    const isValid = bcrypt.compare(password, user.password)
+    if (!isValid) return res.json({ success: false, message: "Incorrect password" })
     if (!user.isVerified) return res.json({
       success: false,
       message: "User is not verified, please signup"
